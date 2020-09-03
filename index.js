@@ -1,11 +1,12 @@
 require('dotenv').config();
+
+const ip = require('public-ip');
 const cf = require('cloudflare')({
     email: process.env.CF_EMAIL,
     key: process.env.CF_KEY
 });
-const ip = require('public-ip');
 
-setInterval(() => {
+setInterval(async () => {
     const zones = await cf.zones.browse();
     const zone = zones.result[0].id;
     const records = await cf.dnsRecords.browse(zone);
